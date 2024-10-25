@@ -1,5 +1,5 @@
 -- +goose Up
-create table main.users
+create table public.users
 (
 	id serial not null
 		constraint users_pk
@@ -11,7 +11,7 @@ create table main.users
 	deleted_at timestamp
 );
 
-INSERT INTO main.users 
+INSERT INTO public.users 
 (id, balance, created_at, updated_at, deleted_at) 
 VALUES 
 (DEFAULT, 1000.20, DEFAULT, DEFAULT, null),
@@ -19,4 +19,4 @@ VALUES
 (DEFAULT, 3000.520, DEFAULT, DEFAULT, null);
 
 -- +goose Down
-DROP TABLE main.users;
+DROP TABLE public.users;

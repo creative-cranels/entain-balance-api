@@ -1,7 +1,11 @@
-GOPATH = $(shell go env | egrep GOPATH | egrep -o '/[^"]+')
+.PHONY: setup
 
-.PHONY: all
-all:            ## Start dev server
-	@command -v air || (echo "air is not installed. Please run $$ make devsetup"; exit 1)
-	@$(MAKE) docs
-	air
+default: run
+
+setup:
+	@echo "🌀 Setting up the system..."
+	docker-compose run app bash setup.sh
+	@echo "✔  System is ready"
+
+run:
+	docker-compose up
