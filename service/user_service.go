@@ -8,7 +8,7 @@ import (
 
 type UserServiceI interface {
 	CreateUser() error
-	FindByID(id uint64) (model.User, *RestError)
+	FindByID(id uint64) (*model.User, *RestError)
 	Save(user *model.User) *RestError
 	GetBalance(id uint64) (float64, *RestError)
 	MakeTransaction(state, amount, transactionID string) *RestError
@@ -27,6 +27,7 @@ func NewUserService(
 	}
 }
 
+// CreateUser - creates user
 func (srv UserService) CreateUser() error {
 
 	_, err := srv.userRepo.Create(model.User{})
@@ -34,7 +35,8 @@ func (srv UserService) CreateUser() error {
 	return err
 }
 
-func (srv UserService) FindByID(id uint64) (model.User, *RestError) {
+// FindByID - finds user by id and returns it
+func (srv UserService) FindByID(id uint64) (*model.User, *RestError) {
 	user, err := srv.userRepo.FindByID(id)
 
 	if err != nil {
@@ -47,6 +49,7 @@ func (srv UserService) FindByID(id uint64) (model.User, *RestError) {
 	return user, nil
 }
 
+// Save - saves incoming User object
 func (service *UserService) Save(user *model.User) *RestError {
 	if err := service.userRepo.Save(user); err != nil {
 		return &RestError{
@@ -57,10 +60,12 @@ func (service *UserService) Save(user *model.User) *RestError {
 	return nil
 }
 
+// GetBalance - returns user's balance by id
 func (service *UserService) GetBalance(id uint64) (float64, *RestError) {
 	return 0, nil
 }
 
+// MakeTransaction - saves transaction
 func (service *UserService) MakeTransaction(
 	state,
 	amount,

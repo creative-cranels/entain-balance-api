@@ -12,17 +12,17 @@ type TransactionRequest struct {
 }
 
 func (tr *TransactionRequest) Validate() error {
+	if tr.State == "" || tr.Amount == "" || tr.TransactionID == "" {
+		return errors.New("invalid data")
+	}
+
 	if tr.State != "win" && tr.State != "lose" {
 		return errors.New("invalid state value")
 	}
 
-	_, err := utils.AtoiFloat64(tr.Amount)
-	if err != nil {
+	if _, err := utils.AtoiFloat64(tr.Amount); err != nil {
 		return err
 	}
 
-	if tr.TransactionID == "" {
-		return errors.New("invalid transactionId value")
-	}
 	return nil
 }
