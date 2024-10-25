@@ -13,7 +13,6 @@ import (
 )
 
 func ConfigureRoutes(server *Server) {
-	server.Gin.Use(gin.Recovery())
 	server.Gin.Use(corsMiddleware)
 	server.Gin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
