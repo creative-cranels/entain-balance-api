@@ -2,3 +2,4 @@ main
 .env
 .idea
 docs
+.DS_Store
