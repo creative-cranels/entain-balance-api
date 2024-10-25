@@ -25,10 +25,13 @@ func ConfigureRoutes(server *Server) {
 
 	// Handlers Initialization
 	welcomeHandler := handler.NewWelcomeHandler()
+	userHandler := handler.NewUserHandler()
 
 	// Public routes
 	publicRoutes := server.Gin.Group("")
 	publicRoutes.GET("/ping", welcomeHandler.Ping)
+	publicRoutes.GET("/user/:id/balance", userHandler.GetUserBalance)
+	publicRoutes.POST("/user/:id/transaction", userHandler.MakeTransaction)
 }
 
 func corsMiddleware(ctx *gin.Context) {
