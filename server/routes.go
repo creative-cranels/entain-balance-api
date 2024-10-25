@@ -20,17 +20,19 @@ func ConfigureRoutes(server *Server) {
 	userRepo := repository.NewUserRepository(server.DB)
 
 	// Services Initialization
-	_ = service.NewUserService(userRepo)
+	userService := service.NewUserService(userRepo)
 
 	// Handlers Initialization
 	welcomeHandler := handler.NewWelcomeHandler()
-	userHandler := handler.NewUserHandler()
+	userHandler := handler.NewUserHandler(userService)
 
 	// Public routes
 	publicRoutes := server.Gin.Group("")
 	publicRoutes.GET("/ping", welcomeHandler.Ping)
-	publicRoutes.GET("/user/:id/balance", userHandler.GetUserBalance)
-	publicRoutes.POST("/user/:id/transaction", userHandler.MakeTransaction)
+
+	userRoutes := server.Gin.Group("/user", CreateRequestWrapper)
+	userRoutes.GET("/:id/balance", userHandler.GetUserBalance)
+	userRoutes.POST("/:id/transaction", userHandler.MakeTransaction)
 }
 
 func corsMiddleware(ctx *gin.Context) {

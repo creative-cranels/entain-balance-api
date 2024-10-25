@@ -18,7 +18,7 @@ type RequestFile struct {
 type RequestWrapper struct {
 	C *gin.Context
 
-	ID uint // ID from the Path
+	ID uint64 // ID from the Path
 
 	Page    int // ?page=#
 	PerPage int // ?perPage=#
@@ -76,7 +76,7 @@ func (r *RequestWrapper) ParseDefaultQueryParams() {
 }
 
 func (r *RequestWrapper) ParseDefaultPathParams() {
-	r.ID = uint(AtoiDefault(r.C.Param("id"), 0))
+	r.ID = AtoiUint64Default(r.C.Param("id"), 0)
 }
 
 func (r *RequestWrapper) GetSliceQuery(name, delim string) []string {

@@ -8,8 +8,10 @@ import (
 
 type UserServiceI interface {
 	CreateUser() error
-	FindByID(id int) (model.User, *RestError)
+	FindByID(id uint64) (model.User, *RestError)
 	Save(user *model.User) *RestError
+	GetBalance(id uint64) (float64, *RestError)
+	MakeTransaction(state, amount, transactionID string) *RestError
 }
 
 type UserService struct {
@@ -32,7 +34,7 @@ func (srv UserService) CreateUser() error {
 	return err
 }
 
-func (srv UserService) FindByID(id int) (model.User, *RestError) {
+func (srv UserService) FindByID(id uint64) (model.User, *RestError) {
 	user, err := srv.userRepo.FindByID(id)
 
 	if err != nil {
@@ -52,5 +54,17 @@ func (service *UserService) Save(user *model.User) *RestError {
 			Error:  err,
 		}
 	}
+	return nil
+}
+
+func (service *UserService) GetBalance(id uint64) (float64, *RestError) {
+	return 0, nil
+}
+
+func (service *UserService) MakeTransaction(
+	state,
+	amount,
+	transactionID string,
+) *RestError {
 	return nil
 }
