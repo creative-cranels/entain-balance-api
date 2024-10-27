@@ -49,10 +49,10 @@ func (h *UserHandler) GetUserBalance(context *gin.Context) {
 	})
 }
 
-// Balance godoc
-// @Summary Get user balance by user_id
-// @Description Returns user's balance by user_id
-// @ID user-balance
+// Make transaction godoc
+// @Summary Make transaciton
+// @Description Make transaction and update user's balance
+// @ID user-transaction
 // @Tags User Actions
 // @Accept json
 // @Param			request			body		request.TransactionRequest	true	"Transaction data"

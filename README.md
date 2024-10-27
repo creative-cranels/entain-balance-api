@@ -12,6 +12,8 @@ docker-compose up
 4. genrates swagger docs
 5. builds and runs app on port `7788`
 
+> minimum 1Gb RAM is required to run the app
+
 ## Routes
 ### 1. Get user balance
 
