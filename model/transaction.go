@@ -8,9 +8,10 @@ import (
 
 type Transaction struct {
 	gorm.Model
-	UserID uint64          `gorm:"user_id"`
-	Amount float64         `gorm:"amount"`
-	Type   TransactionType `gorm:"transaction_type"`
+	UserID     uint64
+	Amount     float64
+	Type       TransactionType `gorm:"column:transaction_type"`
+	ExternalID string
 
 	User *User
 }

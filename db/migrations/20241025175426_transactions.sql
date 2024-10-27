@@ -9,6 +9,7 @@ create table public.transactions
   user_id integer references public.users (id),
 	amount numeric not null,
   transaction_type  public.TransactionType not null,
+  external_id  text not null unique,
 
 	created_at timestamp default now() not null,
 	updated_at timestamp default now() not null,

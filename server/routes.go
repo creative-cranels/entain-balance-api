@@ -18,9 +18,10 @@ func ConfigureRoutes(server *Server) {
 
 	// Repository Initialization
 	userRepo := repository.NewUserRepository(server.DB)
+	transactionRepo := repository.NewTransctionRepository(server.DB)
 
 	// Services Initialization
-	userService := service.NewUserService(userRepo)
+	userService := service.NewUserService(userRepo, transactionRepo)
 
 	// Handlers Initialization
 	welcomeHandler := handler.NewWelcomeHandler()

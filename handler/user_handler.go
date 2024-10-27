@@ -86,6 +86,7 @@ func (h *UserHandler) MakeTransaction(context *gin.Context) {
 	}
 
 	if restError := h.UserService.MakeTransaction(
+		rw.ID,
 		transactionRequest.State,
 		transactionRequest.Amount,
 		transactionRequest.TransactionID,
