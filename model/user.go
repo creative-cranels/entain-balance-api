@@ -7,8 +7,8 @@ import (
 )
 
 type User struct {
-	ID      uint64 `gorm:"primarykey"`
-	Balance int64  `gorm:"type:integer"`
+	ID      uint64  `gorm:"primarykey"`
+	Balance float64 `gorm:"type:numeric"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
