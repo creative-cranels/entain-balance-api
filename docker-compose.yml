@@ -4,26 +4,31 @@ services:
   db:
     image: postgres:latest
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pgpassword123
+      - POSTGRES_DB=balance-db
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "5432:5432"
 
   app:
     build: .
     command: bash -c 'bash setup.sh && go run cmd/main.go'
     environment:
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DRIVER=${DB_DRIVER}
-      - DB_NAME=${DB_NAME}
+      - DB_USER=postgres
+      - DB_PASSWORD=pgpassword123
+      - DB_DRIVER=postgres
+      - DB_NAME=balance-db
       - DB_HOST=db
-      - DB_PORT=${DB_PORT}
-      - DB_SCHEMA=${DB_SCHEMA}
+      - DB_PORT=5432
+      - DB_SCHEMA=public
+      - DB_MAX_OPEN_CONNS=5
+      - DB_MAX_IDLE_CONNS=2
+      - DB_CONN_MAX_LIFE=360
+      - EXPOSE_PORT=7788
+      - EXPOSE_DB_PORT=33061
     volumes:
       - .:/app
     ports:
-      - "${PORT}:${PORT}"
+      - "7788:7788"
     depends_on:
       - db
