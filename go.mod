@@ -44,7 +44,6 @@ require (
 )
 
 require (
-	github.com/chenzhuoyu/iasm v0.9.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	gorm.io/driver/postgres v1.5.7
 )
