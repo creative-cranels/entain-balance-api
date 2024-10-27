@@ -54,7 +54,7 @@ func (service *UserService) GetBalance(id uint64) (float64, *RestError) {
 	user, err := service.userRepo.FindByID(id)
 	if err != nil {
 		return 0, &RestError{
-			Status: http.StatusInternalServerError,
+			Status: http.StatusNotFound,
 			Error:  err,
 		}
 	}
