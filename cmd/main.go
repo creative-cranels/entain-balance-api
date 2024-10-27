@@ -5,10 +5,7 @@ import (
 	"balance-api/config"
 	"balance-api/docs"
 	"fmt"
-	"log"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 // @title Balance API
@@ -20,10 +17,6 @@ import (
 
 // @BasePath /
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT"))
 	application.Start(config.NewConfig())
 }
