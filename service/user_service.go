@@ -4,7 +4,6 @@ import (
 	"balance-api/model"
 	"balance-api/repository"
 	"balance-api/utils"
-	"errors"
 	"net/http"
 )
 
@@ -69,21 +68,6 @@ func (service *UserService) MakeTransaction(
 	amount,
 	transactionID string,
 ) *RestError {
-
-	exists, err := service.transactionRepo.ExistsWithExternalID(transactionID)
-	if err != nil {
-		return &RestError{
-			Status: http.StatusInternalServerError,
-			Error:  err,
-		}
-	}
-	if exists {
-		return &RestError{
-			Status: http.StatusBadRequest,
-			Error:  errors.New("transaction with given id already exists"),
-		}
-	}
-
 	parsedAmount, err := utils.AtoiFloat64(amount)
 	if err != nil {
 		return &RestError{
@@ -118,26 +102,24 @@ func (service *UserService) MakeTransaction(
 		}
 	}
 
-	user, err := service.userRepo.FindByID(userID)
-	if err != nil {
-		return &RestError{
-			Status: http.StatusNotFound,
-			Error:  err,
-		}
+	chargedAmount := parsedAmount
+	if transactionType == model.TransactionTypeSub {
+		chargedAmount *= -1
 	}
 
-	switch transactionType {
-	case model.TransactionTypeAdd:
-		user.Balance += parsedAmount
-	case model.TransactionTypeSub:
-		user.Balance -= parsedAmount
-	}
-
-	if err = service.userRepo.Save(user); err != nil {
+	if err = service.userRepo.UpdateBalance(userID, chargedAmount, tx); err != nil {
 		return &RestError{
 			Status: http.StatusInternalServerError,
 			Error:  err,
 		}
 	}
+
+	if err = tx.Commit().Error; err != nil {
+		return &RestError{
+			Status: http.StatusInternalServerError,
+			Error:  err,
+		}
+	}
+
 	return nil
 }

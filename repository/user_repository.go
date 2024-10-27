@@ -3,6 +3,7 @@ package repository
 import (
 	"balance-api/db"
 	"balance-api/model"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -10,7 +11,8 @@ import (
 type UserRepositoryI interface {
 	FindByID(id uint64) (*model.User, error)
 	Create(user model.User, tx ...*gorm.DB) (uint64, error)
-	Save(user *model.User) error
+	Save(user *model.User, tx ...*gorm.DB) error
+	UpdateBalance(id uint64, amount float64, tx ...*gorm.DB) error
 }
 
 type UserRepository struct {
@@ -32,6 +34,21 @@ func (repo *UserRepository) Create(user model.User, tx ...*gorm.DB) (uint64, err
 	return user.ID, err
 }
 
-func (repo *UserRepository) Save(user *model.User) error {
-	return repo.storage.Exec(db.IWrite).Save(user).Error
+func (repo *UserRepository) Save(user *model.User, tx ...*gorm.DB) error {
+	return Exec(repo.storage.Exec(db.IWrite), tx).Save(user).Error
+}
+
+func (repo *UserRepository) UpdateBalance(id uint64, amount float64, tx ...*gorm.DB) error {
+	result := Exec(repo.storage.Exec(db.IWrite), tx).
+		Model(model.User{}).
+		Where("id = ? AND balance + ? >= 0", id, amount).
+		UpdateColumn("balance", gorm.Expr("balance + ?", amount))
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("couldn't update user balance, negative value appeared")
+	}
+	return nil
 }
