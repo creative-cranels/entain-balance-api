@@ -60,7 +60,7 @@ func (h *UserHandler) GetUserBalance(context *gin.Context) {
 // @Success 200 {object} string "message"
 // @Failure 422 {object} response.Error
 // @Failure 500 {object} string "Error message"
-// @Router /user/{id}/balance [get]
+// @Router /user/{id}/transaction [post]
 func (h *UserHandler) MakeTransaction(context *gin.Context) {
 	rw := utils.GetRequestWrapper(context)
 	rw.ParseDefaultPathParams()

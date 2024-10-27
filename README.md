@@ -6,7 +6,11 @@
 docker-compose up
 ```
 
-The app runs on port `7788`
+1. installs postgresql
+2. installs required goose and swag modules
+3. runs migrations and adds test users (1, 2, 3)
+4. genrates swagger docs
+5. builds and runs app on port `7788`
 
 ## Routes
 ### 1. Get user balance

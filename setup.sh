@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 go install github.com/swaggo/swag/cmd/swag@v1.8.10
 go install github.com/pressly/goose/v3/cmd/goose@latest
