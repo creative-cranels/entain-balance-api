@@ -98,36 +98,10 @@ Success
 }
 ```
 
-## Project Structure for developers
+## Possible improvements
 
-## main.go
-Entry point of whole project is main.go file. Here you should init DB connection, init Server  and start listen for new connections.
-
-## server package
-`server` package will contain implementation of your server(requests, responses, handlers, routes, models).
-
-## db package
-`db` package is responsible for connection with a database. Place for DB connection initiation.
- 
- ## handler
- `handler` package is responsible for connection of business logic layer and transport layer.
-
-## model
-`model` package is a place where to store app models.
-
-## repository
-`repository` package is a place where to store repositories.
-
-## request
-`request` package is a place where to store requests.
-
-## response
-`response` package is a place where to store requests.
-
-## service
-`service` package is a place where to store business logic of the app.
-
-Check `README.md` in `server` package to get more details.
+1. Using message brokers as Apache Kafka, RabbitMQ to offload data processing
+2. Using memory cache or Redis to store user balance
 
 ## Entain Test task
 
